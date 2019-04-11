@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +44,7 @@ public abstract class Handler {
 
 	@Value("${judge.scriptPath}")
 	private String script;
+
 	/**
 	 * 验证参数是否合法
 	 *
@@ -151,12 +151,13 @@ public abstract class Handler {
 	protected abstract String getRunCommand(File path);
 
 	private void runSrc(JudgeTask task, JudgeResult result, File path) {
-		Map<String,Object> param = new HashMap<>();
-		param.put("path",path.getPath());
-		param.put("cmd",getRunCommand(path));
-		param.put("time",task.getTimeLimit());
-		param.put("memory",task.getMemoryLimit());
-		String cmd = "python " + script + " \"" + JSON.toJSONString(param) + "\"";
+		Map<String, Object> param = new HashMap<>();
+		param.put("path", path.getPath());
+		param.put("cmd", getRunCommand(path).replace(" ", "@"));
+		param.put("time", task.getTimeLimit());
+		param.put("memory", task.getMemoryLimit());
+		String cmd = "python " + script + " '" + JSON.toJSONString(param) + "'";
+		System.out.println(cmd);
 		ExecutorUtil.ExecMessage msg = ExecutorUtil.exec(cmd, 50000);
 		List<ResultCase> cases = JSON.parseArray(msg.getStdout(), ResultCase.class);
 		result.setResult(cases);
@@ -179,7 +180,7 @@ public abstract class Handler {
 		if (!compiler(result, path)) {
 			return result;
 		}
-		runSrc(task, result,path);
+		runSrc(task, result, path);
 		return result;
 	}
 
