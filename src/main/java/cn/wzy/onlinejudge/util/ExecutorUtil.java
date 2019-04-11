@@ -4,10 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 
 public class ExecutorUtil {
 	@Data
@@ -18,6 +17,8 @@ public class ExecutorUtil {
 		private String error;
 
 		private String stdout;
+
+		private String warn;
 	}
 
 	public static ExecMessage exec(String cmd) {
@@ -27,7 +28,7 @@ public class ExecutorUtil {
 			exec = runtime.exec(cmd);
 		} catch (IOException e) {
 			e.printStackTrace();
-			return new ExecMessage(e.getMessage(), null);
+			return new ExecMessage(e.getMessage(), null, null);
 		}
 		ExecMessage res = new ExecMessage();
 		res.setError(message(exec.getErrorStream()));
@@ -36,16 +37,15 @@ public class ExecutorUtil {
 	}
 
 	private static String message(InputStream inputStream) {
-		BufferedReader reader = null;
+		ByteArrayOutputStream buffer = null;
 		try {
-			reader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"));
-			StringBuilder message = new StringBuilder();
-			String str;
-			while ((str = reader.readLine()) != null) {
-				message.append(str);
-				message.append("\n");
+			buffer = new ByteArrayOutputStream();
+			byte[] bytes = new byte[1024];
+			int len;
+			while ((len = inputStream.read(bytes)) != -1) {
+				buffer.write(bytes, 0, len);
 			}
-			String result = message.toString();
+			String result = buffer.toString("UTF-8").trim();
 			if (result.equals("")) {
 				return null;
 			}
@@ -55,7 +55,7 @@ public class ExecutorUtil {
 		} finally {
 			try {
 				inputStream.close();
-				reader.close();
+				buffer.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -4,12 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class JudgeResult {
-	private String globalMsg;
-	private List<ResultCase> result;
+public class ResultCase {
+	private Long time;
+	private Long memory;
+	private Integer status;
+	private String errorMessage;
 }
