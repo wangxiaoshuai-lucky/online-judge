@@ -9,9 +9,8 @@ import java.io.File;
 import java.io.IOException;
 
 @Service
-public class CHandler extends Handler {
-
-	@Value("${judge.Cword}")
+public class CPPHandler extends Handler {
+	@Value("${judge.CPPword}")
 	private String compilerWord;
 
 	@Value("${judge.Crun}")
@@ -19,7 +18,7 @@ public class CHandler extends Handler {
 
 	@Override
 	protected void createSrc(JudgeTask task, File path) throws IOException {
-		File src = new File(path, "main.c");
+		File src = new File(path, "main.cpp");
 		FileUtils.write(task.getSrc(), src);
 	}
 

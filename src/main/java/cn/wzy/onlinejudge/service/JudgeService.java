@@ -1,33 +1,52 @@
 package cn.wzy.onlinejudge.service;
 
-import cn.wzy.onlinejudge.handler.Handler;
+import cn.wzy.onlinejudge.handler.*;
 import cn.wzy.onlinejudge.vo.JudgeResult;
 import cn.wzy.onlinejudge.vo.JudgeTask;
 import lombok.extern.log4j.Log4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Log4j
 @Service
 public class JudgeService {
 
+	@Autowired
+	private CHandler cHandler;
+
+	@Autowired
+	private CPPHandler cppHandler;
+
+	@Autowired
+	private Py2Handler py2Handler;
+
+	@Autowired
+	private Py3Handler py3Handler;
+
+	@Autowired
+	private JavaHandler javaHandler;
+
 	public JudgeResult judge(JudgeTask task) {
 		long start = System.currentTimeMillis();
-		log.info("=========开始判题：" + task + "=========");
-		Handler judgeHandler = null;
-		JudgeResult result = judgeHandler.judge();
+		log.info("=========开始判题=========");
+		JudgeResult result;
+		if (task.getJudgeId() == null || task.getJudgeId() < 1 || task.getJudgeId() > 5) {
+			result = new JudgeResult("编译选项有误!",null);
+		} else {
+			Handler handler = null;
+			switch (task.getJudgeId()){
+				case 1:handler = cHandler;break;
+				case 2:handler = cppHandler;break;
+				case 3:handler = javaHandler;break;
+				case 4:handler = py2Handler;break;
+				case 5:handler = py3Handler;break;
+				default:
+					handler = cHandler;
+			}
+			result = handler.judge(task);
+		}
 		log.info("=========结束判题：" + result + "=========");
 		log.info("=========判题耗时：" + (System.currentTimeMillis() - start) / 1000 + " secends !=========");
 		return result;
-	}
-
-	public static void main(String[] args) {
-		List<String> input = new ArrayList<>();
-		input.add("111\n11\n");
-		input.add("222\n22\n");
-		input.add("333\n33\n");
-		JudgeTask task = new JudgeTask(input,input,65535l,1000l,1,"hello world");
 	}
 }

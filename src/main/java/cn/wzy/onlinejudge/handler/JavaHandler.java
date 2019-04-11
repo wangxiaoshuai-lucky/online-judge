@@ -9,17 +9,17 @@ import java.io.File;
 import java.io.IOException;
 
 @Service
-public class CHandler extends Handler {
+public class JavaHandler extends Handler {
 
-	@Value("${judge.Cword}")
+	@Value("${judge.Javaword}")
 	private String compilerWord;
 
-	@Value("${judge.Crun}")
+	@Value("${judge.Javarun}")
 	private String runWord;
 
 	@Override
 	protected void createSrc(JudgeTask task, File path) throws IOException {
-		File src = new File(path, "main.c");
+		File src = new File(path, "Main.java");
 		FileUtils.write(task.getSrc(), src);
 	}
 

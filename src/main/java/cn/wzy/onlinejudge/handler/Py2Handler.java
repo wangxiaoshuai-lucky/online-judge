@@ -9,17 +9,16 @@ import java.io.File;
 import java.io.IOException;
 
 @Service
-public class CHandler extends Handler {
-
-	@Value("${judge.Cword}")
+public class Py2Handler extends Handler {
+	@Value("${judge.Python2word}")
 	private String compilerWord;
 
-	@Value("${judge.Crun}")
+	@Value("${judge.Python2run}")
 	private String runWord;
 
 	@Override
 	protected void createSrc(JudgeTask task, File path) throws IOException {
-		File src = new File(path, "main.c");
+		File src = new File(path, "main.py");
 		FileUtils.write(task.getSrc(), src);
 	}
 

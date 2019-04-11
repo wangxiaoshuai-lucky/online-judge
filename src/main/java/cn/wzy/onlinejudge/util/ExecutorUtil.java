@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.TimeUnit;
+
 
 public class ExecutorUtil {
 	@Data
@@ -17,18 +19,24 @@ public class ExecutorUtil {
 		private String error;
 
 		private String stdout;
-
-		private String warn;
 	}
 
-	public static ExecMessage exec(String cmd) {
+	public static ExecMessage exec(String cmd, long milliseconds) {
 		Runtime runtime = Runtime.getRuntime();
-		Process exec = null;
+		final Process exec;
 		try {
 			exec = runtime.exec(cmd);
+			if (!exec.waitFor(milliseconds, TimeUnit.MILLISECONDS)) {
+				if (exec.isAlive()) {
+					exec.destroy();
+				}
+				throw new InterruptedException();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			return new ExecMessage(e.getMessage(), null, null);
+			return new ExecMessage(e.getMessage(), null);
+		} catch (InterruptedException e) {
+			return new ExecMessage("timeOut", null);
 		}
 		ExecMessage res = new ExecMessage();
 		res.setError(message(exec.getErrorStream()));
