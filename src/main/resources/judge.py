@@ -50,6 +50,8 @@ def run(cmd, stdIn, stdOut, userOut, timeLimit, memoryLimit):
                 file1.close()
             if file2 is not None:
                 file2.close()
+    else:
+        result['memoryused'], result['timeused'] = 0, 0
     return result
 
 
