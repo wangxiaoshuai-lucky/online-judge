@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -152,16 +153,29 @@ public abstract class Handler {
 
 	private void runSrc(JudgeTask task, JudgeResult result, File path) {
 		Map<String, Object> param = new HashMap<>();
-		param.put("path", path.getPath());
 		param.put("cmd", getRunCommand(path).replace(" ", "@"));
-		param.put("time", task.getTimeLimit());
+		param.put("timeused", task.getTimeLimit());
 		param.put("memory", task.getMemoryLimit());
-		String cmd = "python " + script + " '" + JSON.toJSONString(param) + "'";
-		System.out.println(cmd);
-		ExecutorUtil.ExecMessage msg = ExecutorUtil.exec(cmd, 50000);
-		List<ResultCase> cases = JSON.parseArray(msg.getStdout(), ResultCase.class);
+		List<ResultCase> cases = new ArrayList<>();
+		for (int i = 0; i < task.getInput().size(); i++) {
+			param.put("stdIn", path.getPath() + File.separator + i + ".in");
+			param.put("stdOut", path.getPath() + File.separator + i + ".out");
+			param.put("tmp", path.getPath() + File.separator + "tmp.out");
+			String cmd = "python " + script + " '" + JSON.toJSONString(param) + "'";
+			ExecutorUtil.ExecMessage msg = ExecutorUtil.exec(cmd, 50000);
+			ResultCase caseOne = JSON.parseObject(msg.getStdout(), ResultCase.class);
+			//运行报错
+			if (msg.getError() != null) {
+				if (caseOne == null)
+					caseOne = new ResultCase();
+				caseOne.setResult(RE);
+				caseOne.setMemoryused(-1l);
+				caseOne.setTimeused(-1l);
+				caseOne.setErrormessage(msg.getError());
+			}
+			cases.add(caseOne);
+		}
 		result.setResult(cases);
-		result.setGlobalMsg(msg.getError());
 		// TODO: 2019/4/11 返回运行结果
 	}
 

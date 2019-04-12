@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResultCase {
-	private Integer status;
-	private Long time;
-	private Long memory;
-	private String errorMessage;
+	private Integer result;
+	private Long timeused;
+	private Long memoryused;
+	private String errormessage;
 }

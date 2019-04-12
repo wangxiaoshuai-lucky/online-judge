@@ -11,6 +11,11 @@ import java.util.concurrent.TimeUnit;
 
 
 public class ExecutorUtil {
+
+	public static void main(String[] args) {
+		System.out.println(exec(args[0],10000));
+	}
+
 	@Data
 	@AllArgsConstructor
 	@NoArgsConstructor
@@ -33,7 +38,6 @@ public class ExecutorUtil {
 				throw new InterruptedException();
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
 			return new ExecMessage(e.getMessage(), null);
 		} catch (InterruptedException e) {
 			return new ExecMessage("timeOut", null);
