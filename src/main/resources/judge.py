@@ -41,7 +41,8 @@ def run(cmd, stdIn, stdOut, userOut, timeLimit, memoryLimit):
             file1 = open(userOut, 'r')
             file2 = open(stdOut, 'r')
             rst = lorun.check(file2.fileno(), file1.fileno())
-            result['result'] = rst
+            if rst != 0:
+                result = {'memoryused': 0, 'timeused': 0, 'result': rst}
         except Exception as e:
             result = {'memoryused': 0, 'timeused': 0, 'result': 8, 'errormessage': str(e)}
         finally:
@@ -53,9 +54,15 @@ def run(cmd, stdIn, stdOut, userOut, timeLimit, memoryLimit):
 
 
 if __name__ == '__main__':
-    print(sys.argv[1])
-    param = json.loads(sys.argv[1])
-    res = json.dumps(run(param['cmd'].replace('@', ' '),
+    param = {
+        'cmd': sys.argv[1].replace('@', ' '),
+        'tmp': sys.argv[2],
+        'timeused': int(sys.argv[3]),
+        'memory': int(sys.argv[4]),
+        'stdIn': sys.argv[5],
+        'stdOut': sys.argv[6]
+    }
+    res = json.dumps(run(param['cmd'],
                          param['stdIn'],
                          param['stdOut'],
                          param['tmp'],

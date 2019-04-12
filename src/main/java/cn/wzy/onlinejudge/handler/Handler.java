@@ -11,9 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Base Handler
@@ -152,16 +150,15 @@ public abstract class Handler {
 	protected abstract String getRunCommand(File path);
 
 	private void runSrc(JudgeTask task, JudgeResult result, File path) {
-		Map<String, Object> param = new HashMap<>();
-		param.put("cmd", getRunCommand(path).replace(" ", "@"));
-		param.put("timeused", task.getTimeLimit());
-		param.put("memory", task.getMemoryLimit());
+		String pre = getRunCommand(path).replace(" ", "@") + " " +
+			path.getPath() + File.separator + "tmp.out " +
+			task.getTimeLimit() + " " +
+			task.getMemoryLimit() + " ";
 		List<ResultCase> cases = new ArrayList<>();
 		for (int i = 0; i < task.getInput().size(); i++) {
-			param.put("stdIn", path.getPath() + File.separator + i + ".in");
-			param.put("stdOut", path.getPath() + File.separator + i + ".out");
-			param.put("tmp", path.getPath() + File.separator + "tmp.out");
-			String cmd = "python " + script + " '" + JSON.toJSONString(param) + "'";
+			String param = pre + path.getPath() + File.separator + i + ".in " +
+				path.getPath() + File.separator + i + ".out";
+			String cmd = "python " + script + " " + param;
 			ExecutorUtil.ExecMessage msg = ExecutorUtil.exec(cmd, 50000);
 			ResultCase caseOne = JSON.parseObject(msg.getStdout(), ResultCase.class);
 			//运行报错
