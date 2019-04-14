@@ -25,7 +25,7 @@ public class JSHandler extends Handler {
 	protected ExecutorUtil.ExecMessage HandlerCompiler(File path) {
 		String cmd = runWord.replace("PATH",path.getPath());
 		ExecutorUtil.ExecMessage msg = ExecutorUtil.exec(cmd, 500);
-		if (msg.getError().equals("timeOut")){
+		if (msg.getError() == null || msg.getError().equals("timeOut")){
 			msg.setError(null);
 		}
 		return msg;
