@@ -1,5 +1,6 @@
 package cn.wzy.onlinejudge.handler;
 
+import cn.wzy.onlinejudge.util.ExecutorUtil;
 import cn.wzy.onlinejudge.util.FileUtils;
 import cn.wzy.onlinejudge.vo.JudgeTask;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,8 +24,10 @@ public class CPPHandler extends Handler {
 	}
 
 	@Override
-	protected String getCompilerCommand(File path) {
-		return compilerWord.replace("PATH",path.getPath());
+	protected ExecutorUtil.ExecMessage HandlerCompiler(File path) {
+		String cmd = compilerWord.replace("PATH",path.getPath());
+		ExecutorUtil.ExecMessage msg = ExecutorUtil.exec(cmd, 5000);
+		return msg;
 	}
 
 	@Override

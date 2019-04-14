@@ -10,24 +10,24 @@ import java.io.File;
 import java.io.IOException;
 
 @Service
-public class JavaHandler extends Handler {
+public class JSHandler extends Handler {
 
-	@Value("${judge.Javaword}")
-	private String compilerWord;
-
-	@Value("${judge.Javarun}")
+	@Value("${judge.JSrun}")
 	private String runWord;
 
 	@Override
 	protected void createSrc(JudgeTask task, File path) throws IOException {
-		File src = new File(path, "Main.java");
+		File src = new File(path, "main.js");
 		FileUtils.write(task.getSrc(), src);
 	}
 
 	@Override
 	protected ExecutorUtil.ExecMessage HandlerCompiler(File path) {
-		String cmd = compilerWord.replace("PATH",path.getPath());
-		ExecutorUtil.ExecMessage msg = ExecutorUtil.exec(cmd, 2000);
+		String cmd = runWord.replace("PATH",path.getPath());
+		ExecutorUtil.ExecMessage msg = ExecutorUtil.exec(cmd, 500);
+		if (msg.getError().equals("timeOut")){
+			msg.setError(null);
+		}
 		return msg;
 	}
 

@@ -88,6 +88,21 @@ public abstract class Handler {
 	protected abstract void createSrc(JudgeTask task, File path) throws IOException;
 
 	/**
+	 * 编译（模板方法）
+	 * @param path
+	 * @return
+	 */
+	protected abstract ExecutorUtil.ExecMessage HandlerCompiler(File path);
+
+	/**
+	 * 运行命令（模板方法）
+	 *
+	 * @param path
+	 * @return
+	 */
+	protected abstract String getRunCommand(File path);
+
+	/**
 	 * 创建工作目录
 	 *
 	 * @param task
@@ -124,8 +139,7 @@ public abstract class Handler {
 	 * @return
 	 */
 	private boolean compiler(JudgeResult result, File path) {
-		String cmd = getCompilerCommand(path);
-		ExecutorUtil.ExecMessage msg = ExecutorUtil.exec(cmd, 5000);
+		ExecutorUtil.ExecMessage msg = HandlerCompiler(path);
 		if (msg.getError() != null) {
 			result.setGlobalMsg(msg.getError());
 			return false;
@@ -134,21 +148,11 @@ public abstract class Handler {
 	}
 
 	/**
-	 * 编译命令（模板方法）
-	 *
+	 * 测试源程序
+	 * @param task
+	 * @param result
 	 * @param path
-	 * @return
 	 */
-	protected abstract String getCompilerCommand(File path);
-
-	/**
-	 * 运行命令（模板方法）
-	 *
-	 * @param path
-	 * @return
-	 */
-	protected abstract String getRunCommand(File path);
-
 	private void runSrc(JudgeTask task, JudgeResult result, File path) {
 		String pre = getRunCommand(path).replace(" ", "@") + " " +
 			path.getPath() + File.separator + "tmp.out " +
@@ -176,6 +180,11 @@ public abstract class Handler {
 		// TODO: 2019/4/11 返回运行结果
 	}
 
+	/**
+	 * 判题主流程
+	 * @param task
+	 * @return
+	 */
 	public JudgeResult judge(JudgeTask task) {
 		JudgeResult result = new JudgeResult();
 		//检验输入是否合法

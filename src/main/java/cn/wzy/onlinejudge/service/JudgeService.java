@@ -26,11 +26,15 @@ public class JudgeService {
 	@Autowired
 	private JavaHandler javaHandler;
 
+	@Autowired
+	private JSHandler jsHandler;
+
+
 	public JudgeResult judge(JudgeTask task) {
 		long start = System.currentTimeMillis();
 		log.info("=========开始判题=========");
 		JudgeResult result;
-		if (task.getJudgeId() == null || task.getJudgeId() < 1 || task.getJudgeId() > 5) {
+		if (task.getJudgeId() == null || task.getJudgeId() < 1 || task.getJudgeId() > 6) {
 			result = new JudgeResult("编译选项有误!",null);
 		} else {
 			Handler handler = null;
@@ -40,6 +44,7 @@ public class JudgeService {
 				case 3:handler = javaHandler;break;
 				case 4:handler = py2Handler;break;
 				case 5:handler = py3Handler;break;
+				case 6:handler = jsHandler;break;
 				default:
 					handler = cHandler;
 			}
