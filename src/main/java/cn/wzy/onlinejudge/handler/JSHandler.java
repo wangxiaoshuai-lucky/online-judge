@@ -1,5 +1,6 @@
 package cn.wzy.onlinejudge.handler;
 
+import cn.wzy.onlinejudge.handler.base.Handler;
 import cn.wzy.onlinejudge.util.ExecutorUtil;
 import cn.wzy.onlinejudge.util.FileUtils;
 import cn.wzy.onlinejudge.vo.JudgeTask;

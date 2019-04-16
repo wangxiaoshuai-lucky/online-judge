@@ -1,4 +1,4 @@
-package cn.wzy.onlinejudge.handler;
+package cn.wzy.onlinejudge.handler.base;
 
 import cn.wzy.onlinejudge.util.ExecutorUtil;
 import cn.wzy.onlinejudge.util.FileUtils;
