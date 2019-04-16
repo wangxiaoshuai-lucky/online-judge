@@ -11,12 +11,12 @@ import java.io.File;
 import java.io.IOException;
 
 @Service
-public class MonoHandler extends Handler {
+public class GoHandler extends Handler {
 
-	@Value("${judge.MonoWord}")
+	@Value("${judge.GoWord}")
 	private String compilerWord;
 
-	@Value("${judge.MonoRun}")
+	@Value("${judge.GoRun}")
 	private String runWord;
 
 	@Override
