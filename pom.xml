@@ -47,14 +47,12 @@
                     <groupId>org.slf4j</groupId>
                     <artifactId>log4j-over-slf4j</artifactId>
                 </exclusion>
+                <!-- 移除嵌入式tomcat插件 -->
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
             </exclusions>
-            <!-- 移除嵌入式tomcat插件 -->
-            <!--<exclusions>-->
-            <!--<exclusion>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
-            <!--</exclusion>-->
-            <!--</exclusions>-->
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
