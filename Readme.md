@@ -87,11 +87,14 @@ POST http://acm.swust.edu.cn/OnlineJudge/judge.do
 下载地址：  
 导入：docker load < online_judge.iso  
 运行：docker run --name oj -p 8888:8080 -d online_judge /start.sh
-测试部署：http://ip:8888/OnlineJudge/judge.do
+测试部署：http://ip:8888/OnlineJudge/judge.do  
+查看判题日志：sudo docker logs -ft oj
+![判题日志](./log.png)
 ## 高并发下的扩展
 由于此docker容器启动消耗资源较小，一台服务器可以运行多个判题容器，比如启动三个容器  
 * docker run --name oj1 -p 8888:8080 -d online_judge /start.sh
 * docker run --name oj2 -p 9999:8080 -d online_judge /start.sh 
-* docker run --name oj3 -p 7777:8080 -d online_judge /start.sh  
+* docker run --name oj3 -p 7777:8080 -d online_judge /start.sh
+  
 服务器安装nginx做一个负载均衡，那么可以达到更高的并发！  
 当然，如果一台机器不够，那么可以多台机器进行上述配置，外加一台服务器做一个2层nginx反向代理，将请求负载均衡到上述的1层nginx上
