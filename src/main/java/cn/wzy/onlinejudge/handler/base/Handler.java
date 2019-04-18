@@ -177,7 +177,6 @@ public abstract class Handler {
 			cases.add(caseOne);
 		}
 		result.setResult(cases);
-		// TODO: 2019/4/11 返回运行结果
 	}
 
 	/**
@@ -194,13 +193,16 @@ public abstract class Handler {
 		//创建工作目录
 		File path = new File(judgePath + File.separator + System.currentTimeMillis());
 		if (!createWorkspace(task, result, path)) {
+			ExecutorUtil.exec("rm -rf " + path.getPath(),1000);
 			return result;
 		}
 		//编译
 		if (!compiler(result, path)) {
+			ExecutorUtil.exec("rm -rf " + path.getPath(),1000);
 			return result;
 		}
 		runSrc(task, result, path);
+		ExecutorUtil.exec("rm -rf " + path.getPath(),1000);
 		return result;
 	}
 
