@@ -81,10 +81,17 @@ POST http://acm.swust.edu.cn/OnlineJudge/judge.do
 此项目为spring-boot项目，可以直接运行在服务器tomcat里面，各个语言的环境需要自己搭建。但为了判题安全，强烈建议docker中运行。
 ## 结合docker
 为了达到判题安全，让判题运行在沙盒的环境里面，我是采用docker运行判题容器，将容器的tomcat端口（8080）映射到服务器的某个端口上。  
-样例：docker run --name oj -p 8888:8080 -d online_judge catalina.sh run  
+样例：docker run --name oj -p 8888:8080 -d online_judge /start.sh
 ## 判题镜像下载安装
 我已经创建了一个ubuntu的判题镜像，需要的可以下载导入到自己的服务器上运行。  
 下载地址：  
 导入：docker load < online_judge.iso  
-运行：docker run --name oj -p 8888:8080 -d online_judge catalina.sh run  
+运行：docker run --name oj -p 8888:8080 -d online_judge /start.sh
 测试部署：http://ip:8888/OnlineJudge/judge.do
+## 高并发下的扩展
+由于此docker容器启动消耗资源较小，一台服务器可以运行多个判题容器，比如启动三个容器  
+* docker run --name oj1 -p 8888:8080 -d online_judge /start.sh
+* docker run --name oj2 -p 9999:8080 -d online_judge /start.sh 
+* docker run --name oj3 -p 7777:8080 -d online_judge /start.sh  
+服务器安装nginx做一个负载均衡，那么可以达到更高的并发！  
+当然，如果一台机器不够，那么可以多台机器进行上述配置，外加一台服务器做一个2层nginx反向代理，将请求负载均衡到上述的1层nginx上

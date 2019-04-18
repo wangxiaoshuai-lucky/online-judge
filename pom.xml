@@ -48,10 +48,10 @@
                     <artifactId>log4j-over-slf4j</artifactId>
                 </exclusion>
                 <!-- 移除嵌入式tomcat插件 -->
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                </exclusion>
+                <!--<exclusion>-->
+                    <!--<groupId>org.springframework.boot</groupId>-->
+                    <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
+                <!--</exclusion>-->
             </exclusions>
         </dependency>
         <dependency>
