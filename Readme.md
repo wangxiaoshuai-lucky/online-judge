@@ -84,7 +84,7 @@ POST http://acm.swust.edu.cn/OnlineJudge/judge.do
 样例：docker run --name oj -p 8888:8080 -d online_judge /start.sh
 ## 判题镜像下载安装
 我已经创建了一个ubuntu的判题镜像，需要的可以下载导入到自己的服务器上运行。  
-下载地址：  
+下载地址：下载地址 :https://pan.baidu.com/s/12Y7wQnkv2WaiR4uNTeaY8Q 提取码: 9rmb  
 导入：docker load < online_judge.iso  
 运行：docker run --name oj -p 8888:8080 -d online_judge /start.sh
 测试部署：http://ip:8888/OnlineJudge/judge.do  
