@@ -26,7 +26,7 @@ public class OnlineJudgeApplicationTests {
 		input.add("111\n11\n");
 		input.add("222\n22\n");
 		input.add("333\n33\n");
-		JudgeTask task = new JudgeTask(input,input,1000l,65535l,1,"#include <stdio.h>\n" +
+		JudgeTask task = new JudgeTask(null,input,input,1000l,65535l,1,"#include <stdio.h>\n" +
 			"int main()\n" +
 			"{\n" +
 			"\tint a,b;\n" +

@@ -2,6 +2,7 @@ package cn.wzy.onlinejudge.handler.base;
 
 import cn.wzy.onlinejudge.util.ExecutorUtil;
 import cn.wzy.onlinejudge.util.FileUtils;
+import cn.wzy.onlinejudge.util.ZipUtils;
 import cn.wzy.onlinejudge.vo.JudgeResult;
 import cn.wzy.onlinejudge.vo.JudgeTask;
 import cn.wzy.onlinejudge.vo.ResultCase;
@@ -44,6 +45,9 @@ public abstract class Handler {
 	@Value("${judge.scriptPath}")
 	private String script;
 
+	@Value("${judge.download}")
+	private String download;
+
 	/**
 	 * 验证参数是否合法
 	 *
@@ -52,14 +56,16 @@ public abstract class Handler {
 	 * @return bool.
 	 */
 	private boolean checkTask(JudgeTask task, JudgeResult result) {
-		if (task.getInput() == null || task.getOutput() == null
-			|| task.getInput().size() == 0 || task.getOutput().size() == 0) {
-			result.setGlobalMsg("测试数据不能为空!");
-			return false;
-		}
-		if (task.getInput().size() != task.getOutput().size()) {
-			result.setGlobalMsg("测试数据组数不对应!");
-			return false;
+		if (task.getProId() == null) {
+			if (task.getInput() == null || task.getOutput() == null
+				|| task.getInput().size() == 0 || task.getOutput().size() == 0) {
+				result.setGlobalMsg("测试数据不能为空!");
+				return false;
+			}
+			if (task.getInput().size() != task.getOutput().size()) {
+				result.setGlobalMsg("测试数据组数不对应!");
+				return false;
+			}
 		}
 		if (task.getSrc() == null || task.getSrc().trim().equals("")) {
 			result.setGlobalMsg("测试代码不能为空!");
@@ -89,6 +95,7 @@ public abstract class Handler {
 
 	/**
 	 * 编译（模板方法）
+	 *
 	 * @param path
 	 * @return
 	 */
@@ -114,18 +121,26 @@ public abstract class Handler {
 		try {
 			if (!path.exists())
 				path.mkdirs();
-			//create input and output
-			for (int i = 0; i < task.getInput().size(); i++) {
-				File inFile = new File(path, i + ".in");
-				File outFile = new File(path, i + ".out");
-				inFile.createNewFile();
-				FileUtils.write(task.getInput().get(i), inFile);
-				outFile.createNewFile();
-				FileUtils.write(task.getOutput().get(i), outFile);
+			if (task.getProId() == null) {//create input and output
+				for (int i = 0; i < task.getInput().size(); i++) {
+					File inFile = new File(path, i + ".in");
+					File outFile = new File(path, i + ".out");
+					inFile.createNewFile();
+					FileUtils.write(task.getInput().get(i), inFile);
+					outFile.createNewFile();
+					FileUtils.write(task.getOutput().get(i), outFile);
+				}
+			} else {//download the testData
+				String param = download.replace("{ProId}", task.getProId().toString()).replace("PATH", path.getPath());
+				ExecutorUtil.ExecMessage msg = ExecutorUtil.exec(param, 5000);
+				if (msg.getError() == null || !msg.getError().contains("0K")) {
+					throw new IOException("文件目录出错！");
+				}
+				ZipUtils.unzip(path.getPath() + File.separator + "main.zip", path.getPath());
 			}
 			createSrc(task, path);
 		} catch (IOException e) {
-			result.setGlobalMsg("服务器工作目录出错");
+			result.setGlobalMsg("服务器工作目录出错:"+e);
 			return false;
 		}
 		return true;
@@ -149,19 +164,25 @@ public abstract class Handler {
 
 	/**
 	 * 测试源程序
+	 *
 	 * @param task
 	 * @param result
 	 * @param path
 	 */
 	private void runSrc(JudgeTask task, JudgeResult result, File path) {
+		//cmd : command tmpFile timeLimit memoryLimit inFile outFile
 		String pre = getRunCommand(path).replace(" ", "@") + " " +
-			path.getPath() + File.separator + "tmp.out " +
+			path.getPath() + File.separator + "tmp.out" + " " +
 			task.getTimeLimit() + " " +
 			task.getMemoryLimit() + " ";
 		List<ResultCase> cases = new ArrayList<>();
-		for (int i = 0; i < task.getInput().size(); i++) {
-			String param = pre + path.getPath() + File.separator + i + ".in " +
-				path.getPath() + File.separator + i + ".out";
+		for (int i = 0; ; i++) {
+			File inFile = new File(path.getPath() + File.separator + i + ".in");
+			File outFile = new File(path.getPath() + File.separator + i + ".out");
+			if (!inFile.exists() || !outFile.exists()) {
+				break;
+			}
+			String param = pre + inFile.getPath() + " " + outFile.getPath();
 			String cmd = "python " + script + " " + param;
 			ExecutorUtil.ExecMessage msg = ExecutorUtil.exec(cmd, 50000);
 			ResultCase caseOne = JSON.parseObject(msg.getStdout(), ResultCase.class);
@@ -170,8 +191,8 @@ public abstract class Handler {
 				if (caseOne == null)
 					caseOne = new ResultCase();
 				caseOne.setResult(RE);
-				caseOne.setMemoryused(-1l);
-				caseOne.setTimeused(-1l);
+				caseOne.setMemoryused(-1L);
+				caseOne.setTimeused(-1L);
 				caseOne.setErrormessage(msg.getError());
 			}
 			cases.add(caseOne);
@@ -181,6 +202,7 @@ public abstract class Handler {
 
 	/**
 	 * 判题主流程
+	 *
 	 * @param task
 	 * @return
 	 */
@@ -193,16 +215,16 @@ public abstract class Handler {
 		//创建工作目录
 		File path = new File(judgePath + File.separator + System.currentTimeMillis());
 		if (!createWorkspace(task, result, path)) {
-			ExecutorUtil.exec("rm -rf " + path.getPath(),1000);
+			ExecutorUtil.exec("rm -rf " + path.getPath(), 1000);
 			return result;
 		}
 		//编译
 		if (!compiler(result, path)) {
-			ExecutorUtil.exec("rm -rf " + path.getPath(),1000);
+			ExecutorUtil.exec("rm -rf " + path.getPath(), 1000);
 			return result;
 		}
 		runSrc(task, result, path);
-		ExecutorUtil.exec("rm -rf " + path.getPath(),1000);
+		ExecutorUtil.exec("rm -rf " + path.getPath(), 1000);
 		return result;
 	}
 

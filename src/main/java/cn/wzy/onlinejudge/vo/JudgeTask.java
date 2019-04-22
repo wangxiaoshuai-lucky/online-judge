@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class JudgeTask {
+	private Integer proId;
 	private List<String> input;
 	private List<String> output;
 	private Long timeLimit;
