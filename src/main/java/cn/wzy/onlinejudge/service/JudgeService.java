@@ -57,8 +57,6 @@ public class JudgeService {
 	private GoHandler goHandler;
 
 	public JudgeResult judge(JudgeTask task) {
-		long start = System.currentTimeMillis();
-		log.info("=========开始判题=========");
 		JudgeResult result;
 		if (task.getJudgeId() == null || task.getJudgeId() < 1 || task.getJudgeId() > 14) {
 			result = new JudgeResult("编译选项有误!",null);
@@ -84,8 +82,6 @@ public class JudgeService {
 			}
 			result = handler.judge(task);
 		}
-		log.info("=========结束判题：" + result + "=========");
-		log.info("=========判题耗时：" + (System.currentTimeMillis() - start) / 1000 + " secends !=========");
 		return result;
 	}
 }

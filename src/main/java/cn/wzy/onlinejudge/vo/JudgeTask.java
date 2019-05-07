@@ -18,4 +18,5 @@ public class JudgeTask {
 	private Long memoryLimit;
 	private Integer judgeId;
 	private String src;
+	private String callBack;
 }

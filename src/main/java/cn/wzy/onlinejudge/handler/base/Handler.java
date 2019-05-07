@@ -67,6 +67,10 @@ public abstract class Handler {
 				return false;
 			}
 		}
+		if (task.getCallBack() == null) {
+			result.setGlobalMsg("CallBack为空!");
+			return false;
+		}
 		if (task.getSrc() == null || task.getSrc().trim().equals("")) {
 			result.setGlobalMsg("测试代码不能为空!");
 			return false;

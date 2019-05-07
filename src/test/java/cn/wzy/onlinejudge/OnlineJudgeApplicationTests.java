@@ -2,31 +2,36 @@ package cn.wzy.onlinejudge;
 
 import cn.wzy.onlinejudge.service.JudgeService;
 import cn.wzy.onlinejudge.vo.JudgeTask;
-import cn.wzy.onlinejudge.vo.ResultCase;
+import com.alibaba.fastjson.JSON;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.concurrent.ListenableFuture;
 
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = {OnlineJudgeApplication.class})
 public class OnlineJudgeApplicationTests {
 
 	@Autowired
 	private JudgeService service;
 
+	@Autowired
+	KafkaTemplate kafkaTemplate;
+
 	@Test
-	public void judgeTest() {
+	public void judgeTest() throws ExecutionException, InterruptedException {
 		List<String> input = new ArrayList<>();
 		input.add("111\n11\n");
 		input.add("222\n22\n");
 		input.add("333\n33\n");
-		JudgeTask task = new JudgeTask(null,input,input,1000l,65535l,1,"#include <stdio.h>\n" +
+		JudgeTask task = new JudgeTask(null, input, input, 1000l, 65535l, 1, "#include <stdio.h>\n" +
 			"int main()\n" +
 			"{\n" +
 			"\tint a,b;\n" +
@@ -35,19 +40,9 @@ public class OnlineJudgeApplicationTests {
 			"\tsum = a + b;\n" +
 			"\tprintf(\"%d\",sum);\n" +
 			"\treturn 0;\n" +
-			"}");
-		System.out.println(service.judge(task));
-		task.setJudgeId(2);
-		System.out.println(service.judge(task));
-		task.setJudgeId(3);
-		System.out.println(service.judge(task));
-		task.setJudgeId(4);
-		System.out.println(service.judge(task));
-		task.setJudgeId(5);
-		System.out.println(service.judge(task));
-		task.setJudgeId(6);
-		System.out.println(service.judge(task));
-		task.setJudgeId(7);
-		System.out.println(service.judge(task));
+			"}","http://baidu.com");
+		ListenableFuture send = kafkaTemplate.send("judge", "1", JSON.toJSONString(task));
+		System.out.println(send.get());
 	}
+
 }
