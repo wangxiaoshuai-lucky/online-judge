@@ -45,6 +45,7 @@ POST http://acm.swust.edu.cn/OnlineJudge/judge.do
 如上述任务会将结果返回到callBack的put接口中，网站服务器只需要指定一个PUT类型回调地址即可，参数submitId为了分辨是哪个任务的回调结果。  
 为了回调接口安全，防止其他人篡改结果，建议外加一个密钥："callBack" :"http://ip:port/demo/update.do?submitId=111&key=1asdf112asdfasdf",
 由于这个接口地址由网站服务器指定之后发送给判题服务器的，所以只有这两个服务器知道密钥，所以其他人不能修改结果。  
+回调接口样例：https://github.com/1510460325/online-judge/blob/master/producer/src/main/java/cn/wzy/producer/controller/JudgeController.java  
 返回数据（json）：
 * 全局信息：编译错误信息之类的，判题正常为null
 * 判题信息（按参数组数顺序）：
