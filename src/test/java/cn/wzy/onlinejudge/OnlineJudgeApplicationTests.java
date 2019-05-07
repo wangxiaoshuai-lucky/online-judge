@@ -1,6 +1,7 @@
 package cn.wzy.onlinejudge;
 
 import cn.wzy.onlinejudge.service.JudgeService;
+import cn.wzy.onlinejudge.vo.JudgeResult;
 import cn.wzy.onlinejudge.vo.JudgeTask;
 import com.alibaba.fastjson.JSON;
 import org.junit.Test;
@@ -10,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,14 @@ public class OnlineJudgeApplicationTests {
 
 	@Autowired
 	KafkaTemplate kafkaTemplate;
+
+	@Autowired
+	private RestTemplate template;
+
+	@Test
+	public void restTest(){
+		template.put("http://localhost:8080/result.do?key=111",new JudgeResult("adf",null));
+	}
 
 	@Test
 	public void judgeTest() throws ExecutionException, InterruptedException {
@@ -44,5 +54,7 @@ public class OnlineJudgeApplicationTests {
 		ListenableFuture send = kafkaTemplate.send("judge", "1", JSON.toJSONString(task));
 		System.out.println(send.get());
 	}
+
+
 
 }

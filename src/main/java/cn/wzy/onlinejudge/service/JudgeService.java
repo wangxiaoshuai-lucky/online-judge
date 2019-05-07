@@ -2,15 +2,18 @@ package cn.wzy.onlinejudge.service;
 
 import cn.wzy.onlinejudge.handler.*;
 import cn.wzy.onlinejudge.handler.base.Handler;
-import cn.wzy.onlinejudge.handler.cpphandler.*;
-import cn.wzy.onlinejudge.handler.gcchandler.*;
+import cn.wzy.onlinejudge.handler.cpphandler.GNUCPP11Handler;
+import cn.wzy.onlinejudge.handler.cpphandler.GNUCPP14Handler;
+import cn.wzy.onlinejudge.handler.cpphandler.GNUCPP17Handler;
+import cn.wzy.onlinejudge.handler.cpphandler.GNUCPP98Handler;
+import cn.wzy.onlinejudge.handler.gcchandler.GNUC11Handler;
+import cn.wzy.onlinejudge.handler.gcchandler.GNUC90Handler;
+import cn.wzy.onlinejudge.handler.gcchandler.GNUC99Handler;
 import cn.wzy.onlinejudge.vo.JudgeResult;
 import cn.wzy.onlinejudge.vo.JudgeTask;
-import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Log4j
 @Service
 public class JudgeService {
 
@@ -59,24 +62,52 @@ public class JudgeService {
 	public JudgeResult judge(JudgeTask task) {
 		JudgeResult result;
 		if (task.getJudgeId() == null || task.getJudgeId() < 1 || task.getJudgeId() > 14) {
-			result = new JudgeResult("编译选项有误!",null);
+			result = new JudgeResult("编译选项有误!", null);
 		} else {
 			Handler handler;
-			switch (task.getJudgeId()){
-				case 1:handler = gnuc90Handler;break;
-				case 2:handler = gnuc99Handler;break;
-				case 3:handler = gnuc11Handler;break;
-				case 4:handler = gnucpp98Handler;break;
-				case 5:handler = gnucpp11Handler;break;
-				case 6:handler = gnucpp14Handler;break;
-				case 7:handler = gnucpp17Handler;break;
-				case 8:handler = javaHandler;break;
-				case 9:handler = py2Handler;break;
-				case 10:handler = py3Handler;break;
-				case 11:handler = jsHandler;break;
-				case 12:handler = monoHandler;break;
-				case 13:handler = rubyHandler;break;
-				case 14:handler = goHandler;break;
+			switch (task.getJudgeId()) {
+				case 1:
+					handler = gnuc90Handler;
+					break;
+				case 2:
+					handler = gnuc99Handler;
+					break;
+				case 3:
+					handler = gnuc11Handler;
+					break;
+				case 4:
+					handler = gnucpp98Handler;
+					break;
+				case 5:
+					handler = gnucpp11Handler;
+					break;
+				case 6:
+					handler = gnucpp14Handler;
+					break;
+				case 7:
+					handler = gnucpp17Handler;
+					break;
+				case 8:
+					handler = javaHandler;
+					break;
+				case 9:
+					handler = py2Handler;
+					break;
+				case 10:
+					handler = py3Handler;
+					break;
+				case 11:
+					handler = jsHandler;
+					break;
+				case 12:
+					handler = monoHandler;
+					break;
+				case 13:
+					handler = rubyHandler;
+					break;
+				case 14:
+					handler = goHandler;
+					break;
 				default:
 					handler = gnuc90Handler;
 			}
