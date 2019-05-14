@@ -1,6 +1,7 @@
 package cn.wzy.consumer.handler.base;
 
 
+import cn.wzy.consumer.service.Security;
 import cn.wzy.consumer.util.ExecutorUtil;
 import cn.wzy.consumer.util.FileUtils;
 import cn.wzy.consumer.util.ZipUtils;
@@ -8,6 +9,7 @@ import cn.wzy.consumer.vo.JudgeResult;
 import cn.wzy.consumer.vo.JudgeTask;
 import cn.wzy.consumer.vo.ResultCase;
 import com.alibaba.fastjson.JSON;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.File;
@@ -48,6 +50,9 @@ public abstract class Handler {
 
 	@Value("${judge.download}")
 	private String download;
+
+	@Autowired
+	private Security security;
 
 	/**
 	 * 验证参数是否合法
@@ -215,6 +220,9 @@ public abstract class Handler {
 		JudgeResult result = new JudgeResult();
 		//检验输入是否合法
 		if (!checkTask(task, result)) {
+			return result;
+		}
+		if (!security.checkSecurity(task, result)) {
 			return result;
 		}
 		//创建工作目录

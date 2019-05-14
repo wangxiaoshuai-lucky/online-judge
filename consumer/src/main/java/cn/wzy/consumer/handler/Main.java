@@ -8,7 +8,10 @@ import java.io.File;
 @Log4j
 public class Main {
 	public static void main(String[] args) {
-		File file = new File("C:\\Users\\Administrator\\Desktop\\test\\test");
-		ExecutorUtil.exec("rm -rf " + file.getPath(),500);
+		String sensitive = "fork,system,popen,<sys/ptrace.h>,<sys/wait.h>,<sys/time.h>,Runtime,Popen,subprocess,getstatusoutput(,getoutput(,pbs,apt-get";
+		String src = "import os \nsystem('')";
+		for (String key : sensitive.split(",")) {
+			System.out.println(src.contains(key));
+		}
 	}
 }
