@@ -6,7 +6,9 @@
 </head>
 <body>
 <p style="text-indent: 0em; text-align: center;">
-    <strong><span style="font-family: arial, helvetica, sans-serif; font-size: 36px;">405-请求接口仅支持POST请求</span></strong><span style="font-family: arial, helvetica, sans-serif;"><br/></span>
+    <strong><span
+            style="font-family: arial, helvetica, sans-serif; font-size: 36px;">405-请求接口仅支持POST请求</span></strong><span
+        style="font-family: arial, helvetica, sans-serif;"><br/></span>
 </p>
 <p style="text-indent: 0em;">
     <span style="font-family: arial, helvetica, sans-serif;">此项目仅提供POST提交接口，接收结果回调接口需要外网服务器地址。</span>
@@ -15,10 +17,12 @@
     <span style="font-family:arial, helvetica, sans-serif">请求实例：</span>
 </p>
 <p style="text-indent: 0em;">
-    <span style="font-family:arial, helvetica, sans-serif">url：POST:<a href="http://acm.swust.edu.cn/OnlineJudge/judge.do">http://acm.swust.edu.cn/OnlineJudge/judge.do</a></span>
+    <span style="font-family:arial, helvetica, sans-serif">url：POST:<a
+            href="http://acm.swust.edu.cn/OnlineJudge/judge.do">http://acm.swust.edu.cn/OnlineJudge/judge.do</a></span>
 </p>
 <p style="text-indent: 0em;">
-    <span style="font-family: arial, helvetica, sans-serif;">Con</span><span style="font-family: arial, helvetica, sans-serif;">tent-Type：application/json</span>
+    <span style="font-family: arial, helvetica, sans-serif;">Con</span><span
+        style="font-family: arial, helvetica, sans-serif;">tent-Type：application/json</span>
 </p>
 <p style="text-indent: 0em;">
     <span style="font-family: arial, helvetica, sans-serif;">body：<br/></span>
@@ -35,7 +39,8 @@
 <p style="box-sizing: border-box; margin-bottom: 16px; margin-top: 0px; color: rgb(36, 41, 46); font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;; white-space: normal; background-color: rgb(255, 255, 255); text-indent: 0em;">
     参数列表（json）：
 </p>
-<ul style="box-sizing: border-box; margin-bottom: 16px; padding-left: 2em; color: rgb(36, 41, 46); font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;; white-space: normal; background-color: rgb(255, 255, 255);" class=" list-paddingleft-2">
+<ul style="box-sizing: border-box; margin-bottom: 16px; padding-left: 2em; color: rgb(36, 41, 46); font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;; white-space: normal; background-color: rgb(255, 255, 255);"
+    class=" list-paddingleft-2">
     <li>
         <p style="text-indent: 0em;">
             题目id(题目id为本人数据库指定题目id，指定后测试数据为本人系统提供)
@@ -80,7 +85,8 @@
 <h2 style="box-sizing: border-box; margin-bottom: 16px; margin-top: 24px; line-height: 1.25; border-bottom: 1px solid rgb(234, 236, 239); padding-bottom: 0.3em; color: rgb(36, 41, 46); font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;; white-space: normal; background-color: rgb(255, 255, 255);">
     判题语言支持：
 </h2>
-<ul style="box-sizing: border-box; margin-bottom: 16px; padding-left: 2em; color: rgb(36, 41, 46); font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;; white-space: normal; background-color: rgb(255, 255, 255);" class=" list-paddingleft-2">
+<ul style="box-sizing: border-box; margin-bottom: 16px; padding-left: 2em; color: rgb(36, 41, 46); font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;; white-space: normal; background-color: rgb(255, 255, 255);"
+    class=" list-paddingleft-2">
     <li>
         <p>
             GCC
@@ -167,9 +173,15 @@
     </li>
 </ul>
 <p style="box-sizing: border-box; margin-bottom: 16px; margin-top: 0px; color: rgb(36, 41, 46); font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;; white-space: normal; background-color: rgb(255, 255, 255);">
-    判题采用异步回调更新函数，网站服务器将判题任务和该id提交给判题服务器，判题服务器判题结束自动调用回调函数携带判题结果。<br/>如上述任务会将结果返回到callBack的put接口中，网站服务器只需要指定一个PUT类型回调地址即可，参数submitId为了分辨是哪个任务的回调结果。<br/>为了回调接口安全，防止其他人篡改结果，建议外加一个密钥：&quot;callBack&quot; :&quot;<a href="http://ip:port/demo/update.do?submitId=111&key=1asdf112asdfasdf" style="box-sizing: border-box; background-color: transparent; color: rgb(3, 102, 214); text-decoration-line: none;">http://ip:port/demo/update.do?submitId=111&amp;key=1asdf112asdfasdf</a>&quot;, 由于这个接口地址由网站服务器指定之后发送给判题服务器的，所以只有这两个服务器知道密钥，所以其他人不能修改结果。<br/>回调接口样例：<a href="https://github.com/1510460325/online-judge/blob/master/producer/src/main/java/cn/wzy/producer/controller/JudgeController.java" style="box-sizing: border-box; background-color: transparent; color: rgb(3, 102, 214); text-decoration-line: none;">https://github.com/1510460325/online-judge/blob/master/producer/src/main/java/cn/wzy/producer/controller/JudgeController.java</a><br/>返回数据（json）：
+    判题采用异步回调更新函数，网站服务器将判题任务和该id提交给判题服务器，判题服务器判题结束自动调用回调函数携带判题结果。<br/>如上述任务会将结果返回到callBack的put接口中，网站服务器只需要指定一个PUT类型回调地址即可，参数submitId为了分辨是哪个任务的回调结果。<br/>为了回调接口安全，防止其他人篡改结果，建议外加一个密钥：&quot;callBack&quot;
+    :&quot;<a href="http://ip:port/demo/update.do?submitId=111&key=1asdf112asdfasdf"
+              style="box-sizing: border-box; background-color: transparent; color: rgb(3, 102, 214); text-decoration-line: none;">http://ip:port/demo/update.do?submitId=111&amp;key=1asdf112asdfasdf</a>&quot;,
+    由于这个接口地址由网站服务器指定之后发送给判题服务器的，所以只有这两个服务器知道密钥，所以其他人不能修改结果。<br/>回调接口样例：<a
+        href="https://github.com/1510460325/online-judge/blob/master/producer/src/main/java/cn/wzy/producer/controller/JudgeController.java"
+        style="box-sizing: border-box; background-color: transparent; color: rgb(3, 102, 214); text-decoration-line: none;">https://github.com/1510460325/online-judge/blob/master/producer/src/main/java/cn/wzy/producer/controller/JudgeController.java</a><br/>返回数据（json）：
 </p>
-<ul style="box-sizing: border-box; margin-bottom: 16px; padding-left: 2em; color: rgb(36, 41, 46); font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;; white-space: normal; background-color: rgb(255, 255, 255);" class=" list-paddingleft-2">
+<ul style="box-sizing: border-box; margin-bottom: 16px; padding-left: 2em; color: rgb(36, 41, 46); font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;; white-space: normal; background-color: rgb(255, 255, 255);"
+    class=" list-paddingleft-2">
     <li>
         <p>
             全局信息：编译错误信息之类的，判题正常为null
@@ -229,7 +241,8 @@
 <p style="box-sizing: border-box; margin-bottom: 16px; margin-top: 0px; color: rgb(36, 41, 46); font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;; white-space: normal; background-color: rgb(255, 255, 255);">
     返回结果集：0 ~ 8
 </p>
-<ul style="box-sizing: border-box; margin-bottom: 16px; padding-left: 2em; color: rgb(36, 41, 46); font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;; white-space: normal; background-color: rgb(255, 255, 255);" class=" list-paddingleft-2">
+<ul style="box-sizing: border-box; margin-bottom: 16px; padding-left: 2em; color: rgb(36, 41, 46); font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;; white-space: normal; background-color: rgb(255, 255, 255);"
+    class=" list-paddingleft-2">
     <li>
         <p>
             &#39;Accepted&#39;
