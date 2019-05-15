@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OnlineJudge</title>
+</head>
+<body>
+<p style="text-indent: 0em; text-align: center;">
+    <strong><span style="font-family: arial, helvetica, sans-serif; font-size: 36px;">405-请求接口仅支持POST请求</span></strong><span style="font-family: arial, helvetica, sans-serif;"><br/></span>
+</p>
+<p style="text-indent: 0em;">
+    <span style="font-family: arial, helvetica, sans-serif;">此项目仅提供POST提交接口，接收结果回调接口需要外网服务器地址。</span>
+</p>
+<p style="text-indent: 0em;">
+    <span style="font-family:arial, helvetica, sans-serif">请求实例：</span>
+</p>
+<p style="text-indent: 0em;">
+    <span style="font-family:arial, helvetica, sans-serif">url：POST:<a href="http://acm.swust.edu.cn/OnlineJudge/judge.do">http://acm.swust.edu.cn/OnlineJudge/judge.do</a></span>
+</p>
+<p style="text-indent: 0em;">
+    <span style="font-family: arial, helvetica, sans-serif;">Con</span><span style="font-family: arial, helvetica, sans-serif;">tent-Type：application/json</span>
+</p>
+<p style="text-indent: 0em;">
+    <span style="font-family: arial, helvetica, sans-serif;">body：<br/></span>
+</p>
+<pre>{
+	&quot;input&quot;:[&quot;12 12&quot;,&quot;12 12&quot;],
+	&quot;output&quot;:[&quot;24&quot;,&quot;24&quot;],
+	&quot;timeLimit&quot;:1000,
+	&quot;memoryLimit&quot;:65535,
+	&quot;judgeId&quot;:1,
+	&quot;src&quot;:&quot;#include&lt;iostream&gt;\nusing namespace std;\nint main()\n{\n\tint a,b;\n\tcin&gt;&gt;a&gt;&gt;b;\n    int c=a+b;\n    cout&lt;&lt;c;\n\n\treturn 0;\n}\n&quot;,
+	&quot;callBack&quot;:&quot;http://acm.swust.edu.cn/OnlineJudge/result.do?key=111&amp;submitId=12&quot;
+}</pre>
+<p style="box-sizing: border-box; margin-bottom: 16px; margin-top: 0px; color: rgb(36, 41, 46); font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;; white-space: normal; background-color: rgb(255, 255, 255); text-indent: 0em;">
+    参数列表（json）：
+</p>
+<ul style="box-sizing: border-box; margin-bottom: 16px; padding-left: 2em; color: rgb(36, 41, 46); font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;; white-space: normal; background-color: rgb(255, 255, 255);" class=" list-paddingleft-2">
+    <li>
+        <p style="text-indent: 0em;">
+            题目id(题目id为本人数据库指定题目id，指定后测试数据为本人系统提供)
+        </p>
+    </li>
+    <li>
+        <p>
+            输入样例数组（自定义输入样例，输入id之后忽略）
+        </p>
+    </li>
+    <li>
+        <p>
+            输出样例数组（自定义输出样例，输入id之后忽略）
+        </p>
+    </li>
+    <li>
+        <p>
+            时间限制：ms
+        </p>
+    </li>
+    <li>
+        <p>
+            内存限制：kb
+        </p>
+    </li>
+    <li>
+        <p>
+            判题语言：语言列表1-14
+        </p>
+    </li>
+    <li>
+        <p>
+            源代码
+        </p>
+    </li>
+    <li>
+        <p>
+            callBack地址：为put请求方式的地址
+        </p>
+    </li>
+</ul>
+<h2 style="box-sizing: border-box; margin-bottom: 16px; margin-top: 24px; line-height: 1.25; border-bottom: 1px solid rgb(234, 236, 239); padding-bottom: 0.3em; color: rgb(36, 41, 46); font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;; white-space: normal; background-color: rgb(255, 255, 255);">
+    判题语言支持：
+</h2>
+<ul style="box-sizing: border-box; margin-bottom: 16px; padding-left: 2em; color: rgb(36, 41, 46); font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;; white-space: normal; background-color: rgb(255, 255, 255);" class=" list-paddingleft-2">
+    <li>
+        <p>
+            GCC
+        </p>
+    </li>
+    <ul style="list-style-type: square;" class=" list-paddingleft-2">
+        <li>
+            <p>
+                GNU C90
+            </p>
+        </li>
+        <li>
+            <p>
+                GNU C99
+            </p>
+        </li>
+        <li>
+            <p>
+                GNU C11
+            </p>
+        </li>
+    </ul>
+    <li>
+        <p>
+            G++
+        </p>
+    </li>
+    <ul style="list-style-type: square;" class=" list-paddingleft-2">
+        <li>
+            <p>
+                GNU C++98
+            </p>
+        </li>
+        <li>
+            <p>
+                GNU C++11
+            </p>
+        </li>
+        <li>
+            <p>
+                GNU C++14
+            </p>
+        </li>
+        <li>
+            <p>
+                GNU C++17
+            </p>
+        </li>
+    </ul>
+    <li>
+        <p>
+            Java 1.8
+        </p>
+    </li>
+    <li>
+        <p>
+            python2.7
+        </p>
+    </li>
+    <li>
+        <p>
+            python3.6
+        </p>
+    </li>
+    <li>
+        <p>
+            JavaScript
+        </p>
+    </li>
+    <li>
+        <p>
+            C#
+        </p>
+    </li>
+    <li>
+        <p>
+            Ruby
+        </p>
+    </li>
+    <li>
+        <p>
+            GO
+        </p>
+    </li>
+</ul>
+<p style="box-sizing: border-box; margin-bottom: 16px; margin-top: 0px; color: rgb(36, 41, 46); font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;; white-space: normal; background-color: rgb(255, 255, 255);">
+    判题采用异步回调更新函数，网站服务器将判题任务和该id提交给判题服务器，判题服务器判题结束自动调用回调函数携带判题结果。<br/>如上述任务会将结果返回到callBack的put接口中，网站服务器只需要指定一个PUT类型回调地址即可，参数submitId为了分辨是哪个任务的回调结果。<br/>为了回调接口安全，防止其他人篡改结果，建议外加一个密钥：&quot;callBack&quot; :&quot;<a href="http://ip:port/demo/update.do?submitId=111&key=1asdf112asdfasdf" style="box-sizing: border-box; background-color: transparent; color: rgb(3, 102, 214); text-decoration-line: none;">http://ip:port/demo/update.do?submitId=111&amp;key=1asdf112asdfasdf</a>&quot;, 由于这个接口地址由网站服务器指定之后发送给判题服务器的，所以只有这两个服务器知道密钥，所以其他人不能修改结果。<br/>回调接口样例：<a href="https://github.com/1510460325/online-judge/blob/master/producer/src/main/java/cn/wzy/producer/controller/JudgeController.java" style="box-sizing: border-box; background-color: transparent; color: rgb(3, 102, 214); text-decoration-line: none;">https://github.com/1510460325/online-judge/blob/master/producer/src/main/java/cn/wzy/producer/controller/JudgeController.java</a><br/>返回数据（json）：
+</p>
+<ul style="box-sizing: border-box; margin-bottom: 16px; padding-left: 2em; color: rgb(36, 41, 46); font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;; white-space: normal; background-color: rgb(255, 255, 255);" class=" list-paddingleft-2">
+    <li>
+        <p>
+            全局信息：编译错误信息之类的，判题正常为null
+        </p>
+    </li>
+    <li>
+        <p>
+            判题信息（按参数组数顺序）：
+        </p>
+    </li>
+    <ul style="list-style-type: square;" class=" list-paddingleft-2">
+        <li>
+            <p>
+                结果：
+            </p>
+        </li>
+        <li>
+            <p>
+                时间消耗
+            </p>
+        </li>
+        <li>
+            <p>
+                空间消耗
+            </p>
+        </li>
+        <li>
+            <p>
+                运行错误信息：运行正常为null
+            </p>
+        </li>
+    </ul>
+</ul>
+<pre style="box-sizing: border-box; font-family: SFMono-Regular, Consolas, &quot;Liberation Mono&quot;, Menlo, Courier, monospace; font-size: 13.6px; margin-bottom: 16px; margin-top: 0px; overflow-wrap: normal; background-color: rgb(246, 248, 250); border-radius: 3px; line-height: 1.45; overflow: auto; padding: 16px; color: rgb(36, 41, 46);">{
+    &quot;globalMsg&quot;: null,
+    &quot;result&quot;: [
+        {
+            &quot;result&quot;: 4,
+            &quot;timeused&quot;: 0,
+            &quot;memoryused&quot;: 0,
+            &quot;errormessage&quot;: null
+        },
+        {
+            &quot;result&quot;: 1,
+            &quot;timeused&quot;: 0,
+            &quot;memoryused&quot;: 0,
+            &quot;errormessage&quot;: null
+        },
+        {
+            &quot;result&quot;: 0,
+            &quot;timeused&quot;: 1,
+            &quot;memoryused&quot;: 6896,
+            &quot;errormessage&quot;: null
+        }
+    ]
+}</pre>
+<p style="box-sizing: border-box; margin-bottom: 16px; margin-top: 0px; color: rgb(36, 41, 46); font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;; white-space: normal; background-color: rgb(255, 255, 255);">
+    返回结果集：0 ~ 8
+</p>
+<ul style="box-sizing: border-box; margin-bottom: 16px; padding-left: 2em; color: rgb(36, 41, 46); font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;; white-space: normal; background-color: rgb(255, 255, 255);" class=" list-paddingleft-2">
+    <li>
+        <p>
+            &#39;Accepted&#39;
+        </p>
+    </li>
+    <li>
+        <p>
+            &#39;Presentation Error&#39;
+        </p>
+    </li>
+    <li>
+        <p>
+            &#39;Time Limit Exceeded&#39;
+        </p>
+    </li>
+    <li>
+        <p>
+            &#39;Memory Limit Exceeded&#39;
+        </p>
+    </li>
+    <li>
+        <p>
+            &#39;Wrong Answer&#39;
+        </p>
+    </li>
+    <li>
+        <p>
+            &#39;Runtime Error&#39;
+        </p>
+    </li>
+    <li>
+        <p>
+            &#39;Output Limit Exceeded&#39;
+        </p>
+    </li>
+    <li>
+        <p>
+            &#39;Compile Error&#39;
+        </p>
+    </li>
+    <li>
+        <p>
+            &#39;System Error&#39;
+        </p>
+    </li>
+</ul>
+<p>
+    <br/>
+</p>
+</body>
+</html>
