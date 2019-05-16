@@ -19,7 +19,7 @@
 * Ruby
 * GO
 ## 判题接口
-POST http://acm.swust.edu.cn/OnlineJudge/judge.do  
+POST http://wangzhengyu.cn:8081/producer/judge.do   
 参数列表（json）：
 * 题目id(题目id为本人数据库指定题目id，指定后测试数据为本人系统提供)
 * 输入样例数组（自定义输入样例，输入id之后忽略）
