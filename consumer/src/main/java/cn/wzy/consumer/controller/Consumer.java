@@ -32,16 +32,20 @@ public class Consumer {
 				String message = kafkaMessage.get();
 				JudgeTask task = JSON.parseObject(message, JudgeTask.class);
 				long start = System.currentTimeMillis();
-				log.info("====开始判题====");
+				log.info("\n************" + "\n" +
+					"\t开始判题,将回调到:" + task.getCallBack() + "\n" +
+					"************");
 				JudgeResult result = service.judge(task);
 				try {
 					template.put(task.getCallBack(), result);
 				} catch (Exception e) {
 					log.error("CallBack is wrong : " + task.getCallBack());
 				}
-				log.info("====结束判题====");
-				log.info("*\t" + result);
-				log.info("====判题耗时：" + (System.currentTimeMillis() - start) / 1000 + " secends !=========");
+				log.info("\n************" + "\n" +
+					"\t判题结束！" + "\n" +
+					"\t判题结果：" + result + "\n" +
+					"\t判题耗时：" + (System.currentTimeMillis() - start) / 1000 + " seconds\n" +
+					"************");
 			} catch (Exception e) {
 				log.error("判题出现错误：" + e.getCause(), e);
 			} finally {
