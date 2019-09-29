@@ -24,6 +24,8 @@ POST http://wangzhengyu.cn:8081/producer/judge.do
 * 题目id(题目id为本人数据库指定题目id，指定后测试数据为本人系统提供)
 * 输入样例数组（自定义输入样例，输入id之后忽略）
 * 输出样例数组（自定义输出样例，输入id之后忽略）
+    * "input":["12 12","13 12"] 相当于两个测试用例，第一次测试输入12 12，第二次测试输入13 12
+    * "output":["24","25"] 对应上面的输出用例的标准输出，第一次测试输出24，第二次测试输出25
 * 时间限制：ms
 * 内存限制：kb
 * 判题语言：上述语言列表1-14
@@ -32,8 +34,8 @@ POST http://wangzhengyu.cn:8081/producer/judge.do
 ~~~
 {
     "proId":15
-	"input":["99 1","99 1","99 1"],
-	"output":["98","100\n","100"],
+	"input":["99 1","99 1","99 1"], // 有多少个测试数据数组就多长
+	"output":["98","100\n","100"],  // 对应上面每个输入的标准输出
 	"timeLimit":1000,
 	"memoryLimit":65535,
 	"judgeId":1,
@@ -96,3 +98,36 @@ POST http://wangzhengyu.cn:8081/producer/judge.do
 ![架构](./structure.png)
 ## 打包
 原本想将项目打包成一个镜像的，但是考虑到kafka的配置，打包成一个镜像实在有些牵强，还是自己配置方便得多。
+
+
+## 源码说明及个人搭建教程
+### 1.源码结构
+* producer：接受外部的POST接口请求，发送到kafka消息对列
+* consumer：消费kafka任务，判题后将结果回调到callback中
+### 2.运行环境(linux 环境)
+* kakfa：用于producer和consumer之间的通信
+    * 安装教程：略
+* lorun：
+    ~~~
+      安装好py2，gcc，g++
+      然后python setup.py install
+      如果出现下面的结果，才算安装成功，而且需要在python2的环境中运行
+      running install
+      running build
+      running build_py
+      running build_ext
+      running install_lib
+      running install_egg_info
+      Removing /usr/local/lib/python2.7/dist-packages/lorun-1.0.1.egg-info
+      Writing /usr/local/lib/python2.7/dist-packages/lorun-1.0.1.egg-info
+      如果过程中有什么头文件找不到是因为没有安装python-dev开发包
+    ~~~
+### 3.搭建教程
+* clone 此项目
+* 修改配置文件
+    * kafka的地址：spring.kafka.bootstrap-servers=192.168.0.115:9092
+    * 判题脚本路径：judge.scriptPath=/root/judge.py
+* 打包：mvn clean package -DskipTests
+* 启动项目：
+    * java -jar consumer-0.0.1-SNAPSHOT.jar &
+    * java -jar producer-0.0.1-SNAPSHOT.jar &
