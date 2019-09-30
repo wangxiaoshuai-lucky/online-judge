@@ -33,13 +33,13 @@ POST http://wangzhengyu.cn:8081/producer/judge.do
 * callBack地址：为put请求方式的地址
 ~~~
 {
-    "proId":15
+    "proId":15,
 	"input":["99 1","99 1","99 1"], // 有多少个测试数据数组就多长
 	"output":["98","100\n","100"],  // 对应上面每个输入的标准输出
 	"timeLimit":1000,
 	"memoryLimit":65535,
 	"judgeId":1,
-	"src":"#include<stdio.h>\nint main()\n{\n\tint a,b,sum;\n\tscanf(\"%d %d\",&a,&b);\n\tsum=a+b;\n\tprintf(\"%d\",sum);\n\treturn 0;\n}"
+	"src":"#include<stdio.h>\nint main()\n{\n\tint a,b,sum;\n\tscanf(\"%d %d\",&a,&b);\n\tsum=a+b;\n\tprintf(\"%d\",sum);\n\treturn 0;\n}",
 	"callBack" :"http://ip:port/demo/update.do?submitId=111"
 }
 ~~~
@@ -95,7 +95,7 @@ POST http://wangzhengyu.cn:8081/producer/judge.do
 * kafka消息队列：保存判题任务，让下游服务消费
 * docker虚拟服务：运行判题服务消费判题任务,多台负载均衡
 
-![架构](./structure.png)
+![架构](imgs/structure.png)
 ## 打包
 原本想将项目打包成一个镜像的，但是考虑到kafka的配置，打包成一个镜像实在有些牵强，还是自己配置方便得多。
 
@@ -107,27 +107,45 @@ POST http://wangzhengyu.cn:8081/producer/judge.do
 ### 2.运行环境(linux 环境)
 * kakfa：用于producer和consumer之间的通信
     * 安装教程：略
-* lorun：
-    ~~~
-      安装好py2，gcc，g++
-      然后python setup.py install
-      如果出现下面的结果，才算安装成功，而且需要在python2的环境中运行
-      running install
-      running build
-      running build_py
-      running build_ext
-      running install_lib
-      running install_egg_info
-      Removing /usr/local/lib/python2.7/dist-packages/lorun-1.0.1.egg-info
-      Writing /usr/local/lib/python2.7/dist-packages/lorun-1.0.1.egg-info
-      如果过程中有什么头文件找不到是因为没有安装python-dev开发包
-    ~~~
 ### 3.搭建教程
 * clone 此项目
 * 修改配置文件
     * kafka的地址：spring.kafka.bootstrap-servers=192.168.0.115:9092
-    * 判题脚本路径：judge.scriptPath=/root/judge.py
+    * 判题程序编译：用于测试用户时间和内存消耗，是c语言写的，需要编译一下  
+    命令：g++ judge.c -o judge
+    * 修改判题文件配置：judge.scriptPath=/home/hadoop/judge/test/judge
 * 打包：mvn clean package -DskipTests
 * 启动项目：
     * java -jar consumer-0.0.1-SNAPSHOT.jar &
     * java -jar producer-0.0.1-SNAPSHOT.jar &
+* 测试：
+~~~
+1.PostMan 测试接口：POST http://你的IP:8081/producer/judge.do 
+数据为JSON格式，body如下：
+{
+    "proId":15,
+	"input":["99 1","99 1","99 1"], // 有多少个测试数据数组就多长
+	"output":["98","100\n","100"],  // 对应上面每个输入的标准输出
+	"timeLimit":1000,
+	"memoryLimit":65535,
+	"judgeId":1,
+	"src":"#include<stdio.h>\nint main()\n{\n\tint a,b,sum;\n\tscanf(\"%d %d\",&a,&b);\n\tsum=a+b;\n\tprintf(\"%d\",sum);\n\treturn 0;\n}",
+	"callBack" :"http://你的IP:8081/producer/result.do"
+}
+2.检查返回数据为OK
+3.查看判题回调result接口里面会有日志输出
+2019-09-29 22:02:49  [ http-nio-8081-exec-9:3730277313 ] - [ INFO ]  
+************
+	收到任务,将回调到:http://wangzhengyu.cn:8081/producer/result.do?key=111&submitId=12
+************
+2019-09-29 22:02:52  [ http-nio-8081-exec-1:3730279390 ] - [ INFO ]  
+*****************
+	key: 111
+	submitId: 12
+	result: JudgeResult(globalMsg=timeOut, result=null)
+*****************
+~~~
+***如果此项目对您有帮助，希望能给个star！***  
+***如果有爱心人士能给个红包买瓶快乐肥宅水喝也是对我这个小可爱最大的鼓励哟***
+<img src="./imgs/zfb.jpg" width="300px" height="300px"></img>
+<img src="./imgs/zfb.jpg" width="300px" height="300px"></img>
