@@ -60,22 +60,22 @@ POST http://wangzhengyu.cn:8081/producer/judge.do
     "globalMsg": null,
     "result": [
         {
-            "result": 4,
-            "timeused": 0,
-            "memoryused": 0,
-            "errormessage": null
+            "status": 4,
+            "timeUsed": 0,
+            "memoryUsed": 0,
+            "errorMessage": null
         },
         {
-            "result": 1,
-            "timeused": 0,
-            "memoryused": 0,
-            "errormessage": null
+            "status": 1,
+            "timeUsed": 0,
+            "memoryUsed": 0,
+            "errorMessage": null
         },
         {
-            "result": 0,
-            "timeused": 1,
-            "memoryused": 6896,
-            "errormessage": null
+            "status": 0,
+            "timeUsed": 1,
+            "memoryUsed": 6896,
+            "errorMessage": null
         }
     ]
 }
@@ -134,18 +134,18 @@ POST http://wangzhengyu.cn:8081/producer/judge.do
 }
 2.检查返回数据为OK
 3.查看判题回调result接口里面会有日志输出
-2019-09-29 22:02:49  [ http-nio-8081-exec-9:3730277313 ] - [ INFO ]  
+2019-09-29 22:03:15  [ http-nio-8081-exec-5:3730303310 ] - [ INFO ]  
 ************
 	收到任务,将回调到:http://wangzhengyu.cn:8081/producer/result.do?key=111&submitId=12
 ************
-2019-09-29 22:02:52  [ http-nio-8081-exec-1:3730279390 ] - [ INFO ]  
+2019-09-29 22:03:18  [ http-nio-8081-exec-2:3730305567 ] - [ INFO ]  
 *****************
 	key: 111
 	submitId: 12
-	result: JudgeResult(globalMsg=timeOut, result=null)
+	result: JudgeResult(globalMsg=null, result=[ResultCase(status=1, timeUsed=0, memoryUsed=0, errorMessage=null), ResultCase(status=1, timeUsed=0, memoryUsed=0, errorMessage=null)])
 *****************
 ~~~
 ***如果此项目对您有帮助，希望能给个star！***  
 ***如果有爱心人士能给个红包买瓶快乐肥宅水喝也是对我这个小可爱最大的鼓励哟***  
 <img src="./imgs/zfb.png" width="300px" height="300px"></img>
-<img src="./imgs/wx.png" width="300px" height="300px"></img>
+<img src="./imgs/wx.jpg" width="300px" height="300px"></img>
