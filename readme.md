@@ -146,6 +146,6 @@ POST http://wangzhengyu.cn:8081/producer/judge.do
 *****************
 ~~~
 ***如果此项目对您有帮助，希望能给个star！***  
-***如果有爱心人士能给个红包买瓶快乐肥宅水喝也是对我这个小可爱最大的鼓励哟***
+***如果有爱心人士能给个红包买瓶快乐肥宅水喝也是对我这个小可爱最大的鼓励哟***  
 <img src="./imgs/zfb.jpg" width="300px" height="300px"></img>
-<img src="./imgs/zfb.jpg" width="300px" height="300px"></img>
+<img src="./imgs/wx.png" width="300px" height="300px"></img>
