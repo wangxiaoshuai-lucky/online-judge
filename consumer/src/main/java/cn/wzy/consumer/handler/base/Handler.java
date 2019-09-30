@@ -36,7 +36,7 @@ public abstract class Handler {
 	protected final int PE = 1;
 	protected final int TLE = 2;
 	protected final int MLE = 3;
-	protected final int WE = 4;
+	protected final int WA = 4;
 	protected final int RE = 5;
 	protected final int OLE = 6;
 	protected final int CE = 7;
@@ -180,11 +180,13 @@ public abstract class Handler {
 	 * @param path
 	 */
 	private void runSrc(JudgeTask task, JudgeResult result, File path) {
-		//cmd : command tmpFile timeLimit memoryLimit inFile outFile
-		String pre = getRunCommand(path).replace(" ", "@") + " " +
-			path.getPath() + File.separator + "tmp.out" + " " +
-			task.getTimeLimit() + " " +
-			task.getMemoryLimit() + " ";
+		//cmd : command timeLimit memoryLimit inFile tmpFile
+		String cmd = "script process timeLimit memoryLimit inputFile tmpFile";
+		cmd = cmd.replace("script", script);
+		cmd = cmd.replace("process", getRunCommand(path).replace(" ", "@"));
+		cmd = cmd.replace("timeLimit", task.getTimeLimit().toString());
+		cmd = cmd.replace("memoryLimit", task.getMemoryLimit().toString());
+		cmd = cmd.replace("tmpFile", path.getPath() + File.separator + "tmp.out");
 		List<ResultCase> cases = new ArrayList<>();
 		for (int i = 0; ; i++) {
 			File inFile = new File(path.getPath() + File.separator + i + ".in");
@@ -192,22 +194,57 @@ public abstract class Handler {
 			if (!inFile.exists() || !outFile.exists()) {
 				break;
 			}
-			String param = pre + inFile.getPath() + " " + outFile.getPath();
-			String cmd = "python " + script + " " + param;
-			ExecutorUtil.ExecMessage msg = ExecutorUtil.exec(cmd, 50000);
+			System.out.println(cmd.replace("inputFile", inFile.getPath()));
+			ExecutorUtil.ExecMessage msg = ExecutorUtil.exec(cmd.replace("inputFile", inFile.getPath()), 50000);
 			ResultCase caseOne = JSON.parseObject(msg.getStdout(), ResultCase.class);
+			if (caseOne == null) {
+				caseOne = new ResultCase(SE, -1L, -1L, null);
+			}
+			if (caseOne.getStatus() == AC) {
+				diff(caseOne, new File(path.getPath() + File.separator + "tmp.out"), outFile);
+			}
 			//运行报错
 			if (msg.getError() != null) {
-				if (caseOne == null)
-					caseOne = new ResultCase();
-				caseOne.setResult(RE);
-				caseOne.setMemoryused(-1L);
-				caseOne.setTimeused(-1L);
-				caseOne.setErrormessage(msg.getError());
+				caseOne.setStatus(RE);
+				caseOne.setMemoryUsed(-1L);
+				caseOne.setTimeUsed(-1L);
+				caseOne.setErrorMessage(msg.getError());
 			}
 			cases.add(caseOne);
 		}
 		result.setResult(cases);
+	}
+
+	/**
+	 * 比对结果
+	 * @param caseOne
+	 * @param tmpOut
+	 * @param stdOut
+	 */
+	public void diff(ResultCase caseOne, File tmpOut, File stdOut) {
+		String tem = FileUtils.read(tmpOut);
+		String std = FileUtils.read(stdOut);
+		if (tem.equals(std)) {
+			caseOne.setStatus(AC);
+			return;
+		}
+		StringBuilder sb1 = new StringBuilder();
+		StringBuilder sb2 = new StringBuilder();
+		for (int i = 0; i < tem.length(); i++) {
+			if (tem.charAt(i) != ' ' && tem.charAt(i) != '\n') {
+				sb1.append(tem.charAt(i));
+			}
+		}
+		for (int i = 0; i < std.length(); i++) {
+			if (std.charAt(i) != ' ' && std.charAt(i) != '\n') {
+				sb2.append(std.charAt(i));
+			}
+		}
+		if (sb1.toString().equals(sb2.toString())) {
+			caseOne.setStatus(PE);
+		} else {
+			caseOne.setStatus(WA);
+		}
 	}
 
 	/**
@@ -240,6 +277,5 @@ public abstract class Handler {
 		ExecutorUtil.exec("rm -rf " + path.getPath(), 1000);
 		return result;
 	}
-
 
 }

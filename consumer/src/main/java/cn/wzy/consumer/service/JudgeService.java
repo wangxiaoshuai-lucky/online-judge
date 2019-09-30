@@ -66,9 +66,6 @@ public class JudgeService {
 		} else {
 			Handler handler;
 			switch (task.getJudgeId()) {
-				case 1:
-					handler = gnuc90Handler;
-					break;
 				case 2:
 					handler = gnuc99Handler;
 					break;
