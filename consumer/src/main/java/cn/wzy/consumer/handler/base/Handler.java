@@ -211,6 +211,7 @@ public abstract class Handler {
 				caseOne.setErrorMessage(msg.getError());
 			}
 			cases.add(caseOne);
+			ExecutorUtil.exec("rm " + path.getPath() + File.separator + "tmp.out", 1000);
 		}
 		result.setResult(cases);
 	}
