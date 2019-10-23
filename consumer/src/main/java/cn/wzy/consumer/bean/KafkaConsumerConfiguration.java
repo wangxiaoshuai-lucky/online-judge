@@ -5,6 +5,7 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerContainerFactory;
@@ -29,6 +30,12 @@ public class KafkaConsumerConfiguration {
 	private String groupId;
 	@Value("${spring.kafka.consumer.auto-offset-reset}")
 	private String autoOffsetReset;
+	@Value("${spring.kafka.consumer.max.poll.records}")
+	private String maxPollRecords;
+	@Value("${spring.kafka.consumer.max.poll.interval.ms}")
+	private String maxPollInterval;
+	@Value("${spring.kafka.consumer.session.timeout.ms}")
+	private String maxSessionTimeOut;
 
 	@Bean
 	public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory() {
@@ -53,6 +60,9 @@ public class KafkaConsumerConfiguration {
 		propsMap.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 		propsMap.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
 		propsMap.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, autoOffsetReset);
+		propsMap.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, maxSessionTimeOut);
+		propsMap.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, maxPollRecords);
+		propsMap.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, maxPollInterval);
 		return propsMap;
 	}
 }
