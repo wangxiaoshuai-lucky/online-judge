@@ -37,10 +37,11 @@ public class Consumer {
                 String message = kafkaMessage.get();
                 JudgeTask task = JSON.parseObject(message, JudgeTask.class);
                 JudgeResult result = service.judge(task);
+                LOGGER.info("judge result:{}", JSON.toJSONString(result));
                 try {
                     template.put(task.getCallBack(), result);
                 } catch (Exception e) {
-                    LOGGER.error("CallBack is wrong : " + task.getCallBack());
+                    LOGGER.error("CallBack is wrong {}, result:{}", task.getCallBack(), JSON.toJSONString(result));
                 }
             } catch (Exception e) {
                 LOGGER.error("判题出现错误：" + e.getCause(), e);
