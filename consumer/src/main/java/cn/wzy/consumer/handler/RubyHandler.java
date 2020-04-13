@@ -28,8 +28,7 @@ public class RubyHandler extends Handler {
 	@Override
 	protected ExecutorUtil.ExecMessage HandlerCompiler(File path) {
 		String cmd = compilerWord.replace("PATH", path.getPath());
-		ExecutorUtil.ExecMessage msg = ExecutorUtil.exec(cmd, 2000);
-		return msg;
+		return ExecutorUtil.exec(cmd, 2000);
 	}
 
 	@Override

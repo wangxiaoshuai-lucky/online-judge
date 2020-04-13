@@ -16,7 +16,6 @@ public class GNUC11Handler extends CHandler {
 	@Override
 	protected ExecutorUtil.ExecMessage HandlerCompiler(File path) {
 		String cmd = compilerWord.replace("PATH",path.getPath());
-		ExecutorUtil.ExecMessage msg = ExecutorUtil.exec(cmd, 5000);
-		return msg;
+		return ExecutorUtil.exec(cmd, 5000);
 	}
 }

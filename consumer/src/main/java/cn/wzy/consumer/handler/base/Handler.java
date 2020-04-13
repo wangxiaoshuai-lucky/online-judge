@@ -198,7 +198,7 @@ public abstract class Handler {
 			ExecutorUtil.ExecMessage msg = ExecutorUtil.exec(cmd.replace("inputFile", inFile.getPath()), 50000);
 			ResultCase caseOne = JSON.parseObject(msg.getStdout(), ResultCase.class);
 			if (caseOne == null) {
-				caseOne = new ResultCase(SE, -1L, -1L, null);
+				caseOne = new ResultCase(SE, -1, -1, null);
 			}
 			if (caseOne.getStatus() == AC) {
 				diff(caseOne, new File(path.getPath() + File.separator + "tmp.out"), outFile);
@@ -206,8 +206,8 @@ public abstract class Handler {
 			//运行报错
 			if (msg.getError() != null) {
 				caseOne.setStatus(RE);
-				caseOne.setMemoryUsed(-1L);
-				caseOne.setTimeUsed(-1L);
+				caseOne.setMemoryUsed(-1);
+				caseOne.setTimeUsed(-1);
 				caseOne.setErrorMessage(msg.getError());
 			}
 			cases.add(caseOne);
