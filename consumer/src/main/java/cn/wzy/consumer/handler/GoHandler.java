@@ -21,7 +21,7 @@ public class GoHandler extends Handler {
 
 	@Override
 	protected void createSrc(JudgeTask task, File path) throws IOException {
-		File src = new File(path, "main.cs");
+		File src = new File(path, "main.go");
 		FileUtils.write(task.getSrc(), src);
 	}
 
